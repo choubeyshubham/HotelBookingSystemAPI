@@ -21,7 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotBlank(message = "Email is required")
     @Column(unique = true)
@@ -41,6 +41,7 @@ public class User {
     private UserRole role;
     private boolean isActive;
     private final LocalDate createdAt=LocalDate.now();
+
 
 
 

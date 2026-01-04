@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.champaranguesthouse</groupId>
-    <artifactId>ChamapranGuestHouseAPI</artifactId>
+    <artifactId>ChamparanGuestHouseAPI</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ChamapranGuestHouseAPI</name>
     <description>ChamapranGuestHouseAPI</description>

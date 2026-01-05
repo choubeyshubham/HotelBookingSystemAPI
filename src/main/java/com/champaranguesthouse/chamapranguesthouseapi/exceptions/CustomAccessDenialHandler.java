@@ -1,14 +1,13 @@
 package com.champaranguesthouse.chamapranguesthouseapi.exceptions;
 
-
 import com.champaranguesthouse.chamapranguesthouseapi.dtos.Response;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
@@ -16,22 +15,22 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAccessDenialHandler implements AccessDeniedHandler {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException)
+    public void handle(HttpServletRequest request,
+                       HttpServletResponse response,
+                       AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
 
         Response errorResponse = Response.builder()
-                .status(HttpStatus.UNAUTHORIZED.value()) //401 invalid token
-                .message(authException.getMessage())
+                .status(HttpStatus.FORBIDDEN.value()) //403 valid token but unauthorized role
+                .message(accessDeniedException.getMessage())
                 .build();
 
         response.setContentType("application/json");
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpStatus.FORBIDDEN.value());
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 
     }

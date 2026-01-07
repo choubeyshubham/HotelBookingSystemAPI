@@ -37,24 +37,24 @@ public class AuthFilter extends OncePerRequestFilter {
 
         String token = getTokenFromRequest(request);
 
-//        if (token != null) {
-//            String email = jwtUtils.getUsernameFromToken(token);
-//            UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-//
-//            if (StringUtils.hasText(email) && jwtUtils.isTokenValid(token, userDetails)) {
-//                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-//                        userDetails, null, userDetails.getAuthorities()
-//                );
-//                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-//            }
-//        }
-//
-//        try {
-//            filterChain.doFilter(request, response);
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
+        if (token != null) {
+            String email = jwtUtils.getUsernameFromToken(token);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+
+            if (StringUtils.hasText(email) && jwtUtils.isTokenValid(token, userDetails)) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                );
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+        }
+
+        try {
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
 
 
     }
